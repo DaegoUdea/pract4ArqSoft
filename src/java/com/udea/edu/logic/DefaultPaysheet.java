@@ -17,6 +17,7 @@ public class DefaultPaysheet implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
-        return -1;
+        long baseSalary = employee.getBaseSalary();
+        return baseSalary;
     }
 }

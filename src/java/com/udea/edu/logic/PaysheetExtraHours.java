@@ -17,6 +17,10 @@ public class PaysheetExtraHours implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int extraHours = employee.getExtraHours();
+        long extraHoursValue = employee.getExtraHoursValue();
+        long baseSalary = employee.getBaseSalary();
+        
+        return baseSalary + (extraHours * extraHoursValue);
     }    
 }

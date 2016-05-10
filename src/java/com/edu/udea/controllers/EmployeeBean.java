@@ -7,13 +7,11 @@ package com.edu.udea.controllers;
 
 import com.edu.udea.data.EmployeeService;
 import com.edu.udea.model.Employee;
+import com.edu.udea.qualifiers.Commission;
 import com.edu.udea.qualifiers.ExtraHours;
 import com.edu.udea.qualifiers.Normal;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -37,7 +35,11 @@ public class EmployeeBean implements Serializable {
 
     @Inject
     @ExtraHours
-    private IPaysheet extraHours;
+    private IPaysheet extraHoursPaysheet;
+    
+    @Inject
+    @Commission
+    private IPaysheet commissionPaysheet;
     
     
 

@@ -17,7 +17,9 @@ public class PaysheetCommission implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        long baseSalary = employee.getBaseSalary();
+        long commission = employee.getComission();
+
+        return baseSalary + commission;
     }
-    
 }
