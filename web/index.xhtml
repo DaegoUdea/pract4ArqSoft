@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body >
+        <div  class="container">
+            <div  style="display: inline-table; width: 49% ">
+                <h:form>
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel for="id" value="Identifiation of employee" />
+                        <p:inputText id="id" value="#{employeeBean.id}" />
+
+                        <p:outputLabel for="name" value="Name of employee" />
+                        <p:inputText id="name"  value="#{employeeBean.name}"/>
+
+                        <p:outputLabel for="base-salary" value="Base salry of employee" />
+                        <p:inputText id="base-salary" value="#{employeeBean.baseSalaryStr}"/>
+
+                        <p:outputLabel for="extra-hours" value="Number of extra hours" />
+                        <p:spinner id="extra-hours" value="#{employeeBean.extraHoursStr}"/>
+
+                        <p:outputLabel for="extra-hours-value" value="Value of extra hours" />
+                        <p:inputText id="extra-hours-value" value="#{employeeBean.extraHoursValueStr}" />
+
+                        <p:outputLabel for="comission" value="Comision value" />
+                        <p:inputText id="comission" value="#{employeeBean.comissionStr}"/>
+                    </h:panelGrid>
+                    
+                    <p:commandButton value="Insert" action="#{employeeBean.addEmployee()}"
+                                     update="@form dataTable"/>
+                </h:form>
+            </div>
+            <div style="display: inline-table; width: 49%">
+                <p:dataTable sortOrder="ascending" sortBy="#{employee.id}" id="dataTable" var="employee" value="#{employeeBean.employees}">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{employee.id}" />
+                    </p:column>
+                    <p:column headerText="Name"> 
+                        <h:outputText value="#{employee.name}" />
+                    </p:column>
+                    <p:column headerText="Extra hours">
+                        <h:outputText value="#{employee.extraHours}" />
+                    </p:column>
+                    <p:column headerText="Comission">
+                        <h:outputText value="#{employee.comission}" />
+                    </p:column>
+                    <p:column headerText="Salary">
+                        <h:outputText value="#{employee.baseSalary}" />
+                    </p:column>
+                    <p:column headerText="Final salary">
+                        <h:outputText value="#{employee.finalSalary}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </div>
+    </h:body>
+</html>
+
