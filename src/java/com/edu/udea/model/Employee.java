@@ -32,8 +32,6 @@ public class Employee {
         this.finalSalary = finalSalary;
     }
 
-
-
     public String getId() {
         return id;
     }

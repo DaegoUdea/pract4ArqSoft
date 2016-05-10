@@ -26,8 +26,6 @@ import javax.inject.Inject;
 @RequestScoped
 public class EmployeeBean implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(EmployeeBean.class.getName());
-
     @ManagedProperty(value = "#{employeeService}")
     private EmployeeService employeeService;
     

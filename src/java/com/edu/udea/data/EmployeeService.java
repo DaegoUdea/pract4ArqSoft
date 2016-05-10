@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
 /**
  *
@@ -27,7 +26,7 @@ public class EmployeeService implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("Initializing employees");
+        System.out.println("Initializing employees service");
         employees = new ArrayList<Employee>();
         employees.add(new Employee("1", "Rogelio Rivera", 900000, 0, 3000, 0, 903000));
         employees.add(new Employee("2", "Roberto Giraldo", 700000, 4, 2000, 0,708000));
@@ -36,7 +35,7 @@ public class EmployeeService implements Serializable {
 
     @PreDestroy
     public void dsr() {
-        System.out.println("Destroying Dao");
+        System.out.println("Destroying employees Service");
     }
 
     public List<Employee> getEmployees() {
