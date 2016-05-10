@@ -11,9 +11,8 @@ import com.edu.udea.model.Employee;
  *
  * @author Daego_000
  */
-public interface IEmployeeDao {
+public interface IPaysheet {
     
-    public Employee getEmployee(String id, String name, long baseSalary,
-            int extraHours, long extraHoursValue, long comission);
+    public long getFinalSalary(Employee employee);
     
 }

@@ -7,7 +7,8 @@ package com.edu.udea.controllers;
 
 import com.edu.udea.data.EmployeeService;
 import com.edu.udea.model.Employee;
-import com.udea.edu.logic.IEmployeeDao;
+import com.edu.udea.qualifiers.ExtraHours;
+import com.edu.udea.qualifiers.Normal;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import com.udea.edu.logic.IPaysheet;
 
 /**
  *
@@ -28,16 +30,23 @@ public class EmployeeBean implements Serializable {
 
     @ManagedProperty(value = "#{employeeService}")
     private EmployeeService employeeService;
-    
-    @Inject
-    private IEmployeeDao employeeDao;
 
-    private String id;
-    private String name;
-    private String baseSalaryStr;
-    private String extraHoursStr;
-    private String extraHoursValueStr;
-    private String comissionStr;
+    @Inject
+    @Normal
+    private IPaysheet normalPaysheet;
+
+    @Inject
+    @ExtraHours
+    private IPaysheet extraHours;
+    
+    
+
+    private String id = "";
+    private String name = "";
+    private String baseSalaryStr = "0";
+    private String extraHoursStr = "0";
+    private String extraHoursValueStr = "0";
+    private String comissionStr = "0";
 
     private List<Employee> employees;
 
@@ -63,8 +72,15 @@ public class EmployeeBean implements Serializable {
             comission = Long.parseLong(comissionStr);
         }
 
-        Employee employee = employeeDao.getEmployee(id, name, baseSalary, extraHours, extraHoursValue, comission);
-        employeeService.addEmployee(employee);
+        //Employee employee = employeeDao.getEmployee(id, name, baseSalary, extraHours, extraHoursValue, comission);
+        //employeeService.addEmployee(employee);
+
+        id = "";
+        name = "";
+        baseSalaryStr = "0";
+        extraHoursStr = "0";
+        extraHoursValueStr = "0";
+        comissionStr = "0";
     }
 
     public String getId() {
