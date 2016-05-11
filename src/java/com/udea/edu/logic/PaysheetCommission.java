@@ -17,6 +17,7 @@ public class PaysheetCommission implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
+        System.out.println("Estimating commission salary");
         long baseSalary = employee.getBaseSalary();
         long commission = employee.getComission();
 

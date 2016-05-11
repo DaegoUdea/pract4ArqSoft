@@ -17,6 +17,7 @@ public class DefaultPaysheet implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
+        System.out.println("Estimating default salary");
         long baseSalary = employee.getBaseSalary();
         return baseSalary;
     }

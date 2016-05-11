@@ -17,6 +17,7 @@ public class PaysheetExtraHours implements IPaysheet {
 
     @Override
     public long getFinalSalary(Employee employee) {
+        System.out.println("Estimating extra hours salary");
         int extraHours = employee.getExtraHours();
         long extraHoursValue = employee.getExtraHoursValue();
         long baseSalary = employee.getBaseSalary();

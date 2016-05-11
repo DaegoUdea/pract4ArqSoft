@@ -36,53 +36,71 @@ public class EmployeeBean implements Serializable {
     @Inject
     @ExtraHours
     private IPaysheet extraHoursPaysheet;
-    
+
     @Inject
     @Commission
     private IPaysheet commissionPaysheet;
-    
-    
 
-    private String id = "";
-    private String name = "";
-    private String baseSalaryStr = "0";
-    private String extraHoursStr = "0";
-    private String extraHoursValueStr = "0";
-    private String comissionStr = "0";
+    private String id;
+    private String name ;
+    private String baseSalaryStr;
+    private String extraHoursStr;
+    private String extraHoursValueStr ;
+    private String comissionStr ;
 
+    private boolean extraSalary = false;
+    private String extraSalaryType = "extraHours";
     private List<Employee> employees;
 
     public EmployeeBean() {
     }
 
     public void addEmployee() {
-        long baseSalary = 0;
-        int extraHours = 0;
-        long extraHoursValue = 0;
-        long comission = 0;
-
-        if (!baseSalaryStr.equalsIgnoreCase("")) {
-            baseSalary = Long.parseLong(baseSalaryStr);
-        }
-        if (!extraHoursStr.equalsIgnoreCase("")) {
-            extraHours = Integer.parseInt(extraHoursStr);
-        }
-        if (!extraHoursValueStr.equalsIgnoreCase("")) {
-            extraHoursValue = Long.parseLong(extraHoursValueStr);
-        }
-        if (!comissionStr.equalsIgnoreCase("")) {
-            comission = Long.parseLong(comissionStr);
-        }
-
-        //Employee employee = employeeDao.getEmployee(id, name, baseSalary, extraHours, extraHoursValue, comission);
-        //employeeService.addEmployee(employee);
-
-        id = "";
-        name = "";
-        baseSalaryStr = "0";
-        extraHoursStr = "0";
-        extraHoursValueStr = "0";
-        comissionStr = "0";
+//        long baseSalary = 0;
+//        int extraHours = 0;
+//        long extraHoursValue = 0;
+//        long comission = 0;
+//
+//        if (!baseSalaryStr.equalsIgnoreCase("")) {
+//            baseSalary = Long.parseLong(baseSalaryStr);
+//        }
+//        if (!extraHoursStr.equalsIgnoreCase("")) {
+//            extraHours = Integer.parseInt(extraHoursStr);
+//        }
+//        if (!extraHoursValueStr.equalsIgnoreCase("")) {
+//            extraHoursValue = Long.parseLong(extraHoursValueStr);
+//        }
+//        if (!comissionStr.equalsIgnoreCase("")) {
+//            comission = Long.parseLong(comissionStr);
+//        }
+//        
+//        System.out.println(extraHoursStr);
+//        System.out.println(extraHoursValueStr);
+//        
+//        System.out.println(extraHours);
+//        System.out.println(extraHoursValue);
+//
+//        Employee employee = new Employee(id, name, baseSalary, extraHours, extraHoursValue, comission, 0);
+//        System.out.println(extraSalary + " -- " + extraSalaryType);
+//        if (extraSalary) {
+//            if (extraSalaryType.equalsIgnoreCase("extraHours")) {
+//                employee.setFinalSalary(extraHoursPaysheet.getFinalSalary(employee));
+//            } else if (extraSalaryType.equalsIgnoreCase("commission")) {
+//                employee.setFinalSalary(commissionPaysheet.getFinalSalary(employee));
+//            }
+//        } 
+//        else {
+//            employee.setFinalSalary(normalPaysheet.getFinalSalary(employee));
+//        }
+//
+//        employeeService.addEmployee(employee);
+//
+//        id = "";
+//        name = "";
+//        baseSalaryStr = "0";
+//        extraHoursStr = "0";
+//        extraHoursValueStr = "0";
+//        comissionStr = "0";
     }
 
     public String getId() {
@@ -146,4 +164,19 @@ public class EmployeeBean implements Serializable {
         this.employeeService = employeeService;
     }
 
+    public boolean isExtraSalary() {
+        return extraSalary;
+    }
+
+    public void setExtraSalary(boolean extraSalary) {
+        this.extraSalary = extraSalary;
+    }
+
+    public String getExtraSalaryType() {
+        return extraSalaryType;
+    }
+
+    public void setExtraSalaryType(String extraSalaryType) {
+        this.extraSalaryType = extraSalaryType;
+    }
 }
