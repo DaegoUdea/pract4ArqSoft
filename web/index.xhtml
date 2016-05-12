@@ -6,32 +6,31 @@
       xmlns:pm="http://primefaces.org/mobile"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Employees salaray</title>
+        <link rel="stylesheet" href="style.css"/>
     </h:head>
     <h:body >
         <div  class="container">
-            <div  style="display: inline-table; width: 30%; margin: 20px 20px ">
+            <div id="left-panel">
                 <h:form>
-
                     <h:panelGrid id="formTable" columns="2">
-                        <p:outputLabel for="id" value="Identifiation of employee" />
+                        <p:outputLabel value="Employee information"/>
+                        <br/>
+
+                        <p:outputLabel for="id" value="Identifiation:" />
                         <p:inputText id="id" value="#{employeeBean.id}">
-                            <f:validateLongRange minimum="0"/>
-                            <f:validateLength maximum="12"/>                            
                         </p:inputText>
 
-                        <p:outputLabel for="name" value="Name of employee" />
+                        <p:outputLabel for="name" value="Names:" />
                         <p:inputText id="name"  value="#{employeeBean.name}">
-                            <f:validateLength minimum="1"/>
                         </p:inputText>
 
-                        <p:outputLabel for="base-salary" value="Base salary of employee" />
+                        <p:outputLabel for="base-salary" value="Base salary:" />
                         <p:inputText id="base-salary" value="#{employeeBean.baseSalaryStr}">
-                            <f:validateLongRange minimum="0"/>
                         </p:inputText>
 
                         <p:panelGrid id="customPanel" style="margin-bottom: 10px">
-                            <p:selectOneRadio id="extra-comission" value="#{employeeBean.extraSalaryType}" required="true"
+                            <p:selectOneRadio id="extra-comission" value="#{employeeBean.extraSalaryType}"
                                               layout="custom">
                                 <f:selectItem itemLabel="extraHours" itemValue="extraHours" />
                                 <f:selectItem itemLabel="commission" itemValue="commission"/>
@@ -39,38 +38,40 @@
                         </p:panelGrid>
                         <br/>
 
-                        <p:outputLabel for="extra-type" value="Extra salary"/>
-                        <p:selectBooleanCheckbox id="extra-type" value="#{employeeBean.extraSalary}"/>
+                        <p:outputLabel for="extra-type" value="Extra salary" />
+                        <p:selectBooleanCheckbox id="extra-type" value="#{employeeBean.extraSalary}">
+                            <p:ajax update="@form" process="@form"/>
+                        </p:selectBooleanCheckbox>
 
-                        <p:outputLabel for="opt1" value="Extra hours" />
-                        <p:radioButton id="opt1" for="extra-comission" itemIndex="0" disabled="#{!employeeBean.extraSalary}"/>
+                        <p:outputLabel for="opt1" value="Extra hours" rendered="#{employeeBean.extraSalary}"/>
+                        <p:radioButton id="opt1" for="extra-comission" itemIndex="0" 
+                                       rendered="#{employeeBean.extraSalary}"/>
 
-                        <p:outputLabel for="extra-hours" value="Amount of hours" />
-                        <p:spinner id="extra-hours" value="#{employeeBean.extraHoursStr}" min="0" >
-                            <f:validateLongRange minimum="0"/>
+                        <p:outputLabel for="extra-hours" value="Amount of hours" rendered="#{employeeBean.extraSalary}" />
+                        <p:spinner id="extra-hours" value="#{employeeBean.extraHoursStr}" min="0" 
+                                   rendered="#{employeeBean.extraSalary}">
                         </p:spinner>
 
-                        <p:outputLabel for="extra-hours-value" value="Value per hour" />
-                        <p:inputText id="extra-hours-value" value="#{employeeBean.extraHoursValueStr}">
-                            <f:validateLongRange minimum="0"/>
+                        <p:outputLabel for="extra-hours-value" value="Value per hour" rendered="#{employeeBean.extraSalary}"/>
+                        <p:inputText id="extra-hours-value" value="#{employeeBean.extraHoursValueStr}"
+                                     rendered="#{employeeBean.extraSalary}">
                         </p:inputText>
 
-                        <p:outputLabel for="comission" value="Comision" />
-                        <p:radioButton id="opt2" for="extra-comission" itemIndex="1" disabled="#{!employeeBean.extraSalary}"/>
+                        <p:outputLabel for="comission" value="Commission" rendered="#{employeeBean.extraSalary}"/>
+                        <p:radioButton id="opt2" for="extra-comission" itemIndex="1" 
+                                       rendered="#{employeeBean.extraSalary}"/>
 
-                        <p:outputLabel for="comission" value="Valor" />
+                        <p:outputLabel for="comission" value="value:" rendered="#{employeeBean.extraSalary}"/>
                         <p:inputText id="comission" value="#{employeeBean.comissionStr}"
-                                     >
-                            <f:validateLongRange minimum="0"/>
+                                     rendered="#{employeeBean.extraSalary}">
                         </p:inputText>
                     </h:panelGrid>
                     <p:commandButton value="Insert" action="#{employeeBean.addEmployee()}"
                                      update="@form dataTable"/>
                 </h:form>
-
             </div>            
 
-            <div style="display: inline-table; width: 60%; margin: 20px 20px">
+            <div id="right-panel">
                 <p:dataTable sortOrder="ascending" sortBy="#{employee.id}" id="dataTable" var="employee" value="#{employeeBean.employees}">
                     <p:column headerText="ID">
                         <h:outputText value="#{employee.id}" />

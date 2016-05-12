@@ -12,18 +12,19 @@ import com.edu.udea.qualifiers.ExtraHours;
 import com.edu.udea.qualifiers.Normal;
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import com.udea.edu.logic.IPaysheet;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Daego_000
  */
 @ManagedBean(name = "employeeBean")
-@RequestScoped
+@ViewScoped
 public class EmployeeBean implements Serializable {
 
     @ManagedProperty(value = "#{employeeService}")
@@ -42,65 +43,74 @@ public class EmployeeBean implements Serializable {
     private IPaysheet commissionPaysheet;
 
     private String id;
-    private String name ;
+    private String name;
     private String baseSalaryStr;
     private String extraHoursStr;
-    private String extraHoursValueStr ;
-    private String comissionStr ;
+    private String extraHoursValueStr;
+    private String comissionStr;
 
-    private boolean extraSalary = false;
-    private String extraSalaryType = "extraHours";
+    private boolean extraSalary;
+    private String extraSalaryType;
     private List<Employee> employees;
 
     public EmployeeBean() {
     }
+    
+    @PostConstruct
+    private void init () {
+        clearForm();
+        extraSalary = false;
+        extraSalaryType = "extraHours";        
+    }
 
     public void addEmployee() {
-//        long baseSalary = 0;
-//        int extraHours = 0;
-//        long extraHoursValue = 0;
-//        long comission = 0;
-//
-//        if (!baseSalaryStr.equalsIgnoreCase("")) {
-//            baseSalary = Long.parseLong(baseSalaryStr);
-//        }
-//        if (!extraHoursStr.equalsIgnoreCase("")) {
-//            extraHours = Integer.parseInt(extraHoursStr);
-//        }
-//        if (!extraHoursValueStr.equalsIgnoreCase("")) {
-//            extraHoursValue = Long.parseLong(extraHoursValueStr);
-//        }
-//        if (!comissionStr.equalsIgnoreCase("")) {
-//            comission = Long.parseLong(comissionStr);
-//        }
-//        
-//        System.out.println(extraHoursStr);
-//        System.out.println(extraHoursValueStr);
-//        
-//        System.out.println(extraHours);
-//        System.out.println(extraHoursValue);
-//
-//        Employee employee = new Employee(id, name, baseSalary, extraHours, extraHoursValue, comission, 0);
-//        System.out.println(extraSalary + " -- " + extraSalaryType);
-//        if (extraSalary) {
-//            if (extraSalaryType.equalsIgnoreCase("extraHours")) {
-//                employee.setFinalSalary(extraHoursPaysheet.getFinalSalary(employee));
-//            } else if (extraSalaryType.equalsIgnoreCase("commission")) {
-//                employee.setFinalSalary(commissionPaysheet.getFinalSalary(employee));
-//            }
-//        } 
-//        else {
-//            employee.setFinalSalary(normalPaysheet.getFinalSalary(employee));
-//        }
-//
-//        employeeService.addEmployee(employee);
-//
-//        id = "";
-//        name = "";
-//        baseSalaryStr = "0";
-//        extraHoursStr = "0";
-//        extraHoursValueStr = "0";
-//        comissionStr = "0";
+        long baseSalary = 0;
+        int extraHours = 0;
+        long extraHoursValue = 0;
+        long comission = 0;
+
+        if (baseSalaryStr != null && !baseSalaryStr.equalsIgnoreCase("")) {
+            baseSalary = Long.parseLong(baseSalaryStr);
+        }
+        if (extraHoursStr != null && !extraHoursStr.equalsIgnoreCase("")) {
+            extraHours = Integer.parseInt(extraHoursStr);
+        }
+        if (extraHoursValueStr != null && !extraHoursValueStr.equalsIgnoreCase("")) {
+            extraHoursValue = Long.parseLong(extraHoursValueStr);
+        }
+        if (comissionStr != null && !comissionStr.equalsIgnoreCase("")) {
+            comission = Long.parseLong(comissionStr);
+        }
+
+        System.out.println(extraHoursStr);
+        System.out.println(extraHoursValueStr);
+
+        System.out.println(extraHours);
+        System.out.println(extraHoursValue);
+
+        Employee employee = new Employee(id, name, baseSalary, extraHours, extraHoursValue, comission, 0);
+        System.out.println(extraSalary + " -- " + extraSalaryType);
+        
+        if (extraSalary) {
+            if (extraSalaryType.equalsIgnoreCase("extraHours")) {
+                employee.setFinalSalary(extraHoursPaysheet.getFinalSalary(employee));
+            } else if (extraSalaryType.equalsIgnoreCase("commission")) {
+                employee.setFinalSalary(commissionPaysheet.getFinalSalary(employee));
+            }
+        } else {
+            employee.setFinalSalary(normalPaysheet.getFinalSalary(employee));
+        }
+        employeeService.addEmployee(employee);
+        clearForm();
+    }
+
+    private void clearForm() {
+        id = "";
+        name = "";
+        baseSalaryStr = "0";
+        extraHoursStr = "0";
+        extraHoursValueStr = "0";
+        comissionStr = "0";
     }
 
     public String getId() {
