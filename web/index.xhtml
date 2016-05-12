@@ -13,9 +13,10 @@
         <div  class="container">
             <div id="left-panel">
                 <h:form>
-                    <h:panelGrid id="formTable" columns="2">
-                        <p:outputLabel value="Employee information"/>
-                        <br/>
+                    <p:outputLabel value="Employee information"/>
+                    <br/>
+                    <br/>
+                    <p:panelGrid id="formTable" columns="2" style="width: 100%">
 
                         <p:outputLabel for="id" value="Identifiation:" />
                         <p:inputText id="id" value="#{employeeBean.id}">
@@ -28,22 +29,25 @@
                         <p:outputLabel for="base-salary" value="Base salary:" />
                         <p:inputText id="base-salary" value="#{employeeBean.baseSalaryStr}">
                         </p:inputText>
-
-                        <p:panelGrid id="customPanel" style="margin-bottom: 10px">
-                            <p:selectOneRadio id="extra-comission" value="#{employeeBean.extraSalaryType}"
-                                              layout="custom">
-                                <f:selectItem itemLabel="extraHours" itemValue="extraHours" />
-                                <f:selectItem itemLabel="commission" itemValue="commission"/>
-                            </p:selectOneRadio>
-                        </p:panelGrid>
-                        <br/>
-
+                        
                         <p:outputLabel for="extra-type" value="Extra salary" />
                         <p:selectBooleanCheckbox id="extra-type" value="#{employeeBean.extraSalary}">
                             <p:ajax update="@form" process="@form"/>
                         </p:selectBooleanCheckbox>
+                    </p:panelGrid>
 
-                        <p:outputLabel for="opt1" value="Extra hours" rendered="#{employeeBean.extraSalary}"/>
+
+                    <p:panelGrid id="customPanel" style="margin-bottom: 10px">
+                        <p:selectOneRadio id="extra-comission" value="#{employeeBean.extraSalaryType}"
+                                          layout="custom">
+                            <f:selectItem itemLabel="extraHours" itemValue="extraHours" />
+                            <f:selectItem itemLabel="commission" itemValue="commission"/>
+                        </p:selectOneRadio>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="2" rendered="#{employeeBean.extraSalary}">
+
+                        <p:outputLabel for="opt1" value="Extra hours" />
                         <p:radioButton id="opt1" for="extra-comission" itemIndex="0" 
                                        rendered="#{employeeBean.extraSalary}"/>
 
@@ -65,7 +69,9 @@
                         <p:inputText id="comission" value="#{employeeBean.comissionStr}"
                                      rendered="#{employeeBean.extraSalary}">
                         </p:inputText>
-                    </h:panelGrid>
+                    </p:panelGrid>
+
+                    <br/>
                     <p:commandButton value="Insert" action="#{employeeBean.addEmployee()}"
                                      update="@form dataTable"/>
                 </h:form>

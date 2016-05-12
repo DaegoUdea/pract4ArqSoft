@@ -8,8 +8,8 @@ and open the template in the editor.
     Author     : Daego_000
 */
 
-#container {
-    background: #f4f4f4;
+.container {
+    margin: 30px;
 }
 
 #right-panel,#left-panel {
@@ -24,4 +24,8 @@ and open the template in the editor.
 
 #right-panel {
     width: 65%
+}
+
+.out-label {
+    width: 30px;
 }
