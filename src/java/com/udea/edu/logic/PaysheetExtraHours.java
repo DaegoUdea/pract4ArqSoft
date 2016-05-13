@@ -15,6 +15,7 @@ import com.edu.udea.qualifiers.ExtraHours;
 @ExtraHours
 public class PaysheetExtraHours implements IPaysheet {
 
+    //Función que calcula el el salario final de un empleado apartir de sus horas extras.
     @Override
     public long getFinalSalary(Employee employee) {
         System.out.println("Estimating extra hours salary");

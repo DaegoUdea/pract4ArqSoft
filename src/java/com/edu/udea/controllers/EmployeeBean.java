@@ -29,21 +29,26 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class EmployeeBean implements Serializable {
 
+    //Bean que almacena la lista de empleados.
     @ManagedProperty(value = "#{employeeService}")
     private EmployeeService employeeService;
 
+    //Instancia que genera el salario normal de un empleado.
     @Inject
     @Normal
     private IPaysheet normalPaysheet;
 
+    //Instancia que genera el salario basado en horas extras de un empleado.
     @Inject
     @ExtraHours
     private IPaysheet extraHoursPaysheet;
 
+    //Instancia que genera el salario basado en comision de un empleado.
     @Inject
     @Commission
     private IPaysheet commissionPaysheet;
 
+    //Atributos del formulario de la vista index.xhtml
     private String id;
     private String name;
     private String baseSalaryStr;
@@ -53,11 +58,16 @@ public class EmployeeBean implements Serializable {
 
     private boolean extraSalary;
     private String extraSalaryType;
+    
+    //Lista de empleados.
     private List<Employee> employees;
 
     public EmployeeBean() {
     }
 
+    
+    //Se inicializan los valores por defecto del formulario cuando se abre la
+    //pagina por primer vez.
     @PostConstruct
     private void init() {
         clearForm();
@@ -65,16 +75,20 @@ public class EmployeeBean implements Serializable {
         extraSalaryType = "extraHours";
     }
 
+    //Función que añade un empleado deacuerdo a las opciones y datos insertados.
     public void addEmployee() {
         long baseSalary = 0;
         int extraHours = 0;
         long extraHoursValue = 0;
         long comission = 0;
 
+        //Se valida primero los datos insertados, si hay alguno invalido se cancela 
+        //la ejecución de la función.
         if (validateFields() == 0) {
             return;
         }
 
+        //Funciones que transforman los datos insertados a sus correspondientes tipos de dato.
         if (baseSalaryStr != null && !baseSalaryStr.equalsIgnoreCase("")) {
             baseSalary = Long.parseLong(baseSalaryStr);
         }
@@ -88,8 +102,11 @@ public class EmployeeBean implements Serializable {
             comission = Long.parseLong(comissionStr);
         }
 
+        //Se crea un empleado con los datos ingresados
         Employee employee = new Employee(id, name, baseSalary, extraHours, extraHoursValue, comission, 0);
 
+        //Se determina el tipo de empleado y se calcula su salario final utilizando para eso
+        //la respectiva inyección de dependencia.
         if (extraSalary) {
             if (extraSalaryType.equalsIgnoreCase("extraHours")) {
                 employee.setFinalSalary(extraHoursPaysheet.getFinalSalary(employee));
@@ -99,17 +116,21 @@ public class EmployeeBean implements Serializable {
         } else {
             employee.setFinalSalary(normalPaysheet.getFinalSalary(employee));
         }
+        
+        //se guarda el empleado en la lista de empleados y se resetea el formulario.
         employeeService.addEmployee(employee);
         clearForm();
 
     }
 
+    //Función que valida el formulario.
     private int validateFields() {
         int invalid = 1;
         FacesMessage message;
         FacesContext context;
         context = FacesContext.getCurrentInstance();
 
+        //Se validan los valores obligatorios del formulario como el id, el nombre y el salario base.
         if (id == null || id.equals("")) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID error:", "You have to type an identification.");
             context.addMessage(null, message);
@@ -139,6 +160,8 @@ public class EmployeeBean implements Serializable {
             invalid = 0;
         }
 
+        //Si el usuario a seleccionado que hay un ingreso extra entonces se 
+        //validan los correspondientes campos para el salario adicional.
         if (extraSalary) {
             if (extraSalaryType == null || extraSalaryType.equals("")) {
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Extra salary error:", "You have to select a extra salary type.");
@@ -170,6 +193,7 @@ public class EmployeeBean implements Serializable {
         return invalid;
     }
 
+    //Funcion que resetea el formulario.
     private void clearForm() {
         id = "";
         name = "";

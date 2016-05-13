@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.edu.udea.model;
 
-/**
- *
- * @author Daego_000
- */
+//POJO DE UN EMPLEADO.
 public class Employee {
     private String id;
     private String name;
