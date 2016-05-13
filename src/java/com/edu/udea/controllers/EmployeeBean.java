@@ -17,7 +17,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import com.udea.edu.logic.IPaysheet;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -55,12 +57,12 @@ public class EmployeeBean implements Serializable {
 
     public EmployeeBean() {
     }
-    
+
     @PostConstruct
-    private void init () {
+    private void init() {
         clearForm();
         extraSalary = false;
-        extraSalaryType = "extraHours";        
+        extraSalaryType = "extraHours";
     }
 
     public void addEmployee() {
@@ -68,6 +70,10 @@ public class EmployeeBean implements Serializable {
         int extraHours = 0;
         long extraHoursValue = 0;
         long comission = 0;
+
+        if (validateFields() == 0) {
+            return;
+        }
 
         if (baseSalaryStr != null && !baseSalaryStr.equalsIgnoreCase("")) {
             baseSalary = Long.parseLong(baseSalaryStr);
@@ -82,15 +88,8 @@ public class EmployeeBean implements Serializable {
             comission = Long.parseLong(comissionStr);
         }
 
-        System.out.println(extraHoursStr);
-        System.out.println(extraHoursValueStr);
-
-        System.out.println(extraHours);
-        System.out.println(extraHoursValue);
-
         Employee employee = new Employee(id, name, baseSalary, extraHours, extraHoursValue, comission, 0);
-        System.out.println(extraSalary + " -- " + extraSalaryType);
-        
+
         if (extraSalary) {
             if (extraSalaryType.equalsIgnoreCase("extraHours")) {
                 employee.setFinalSalary(extraHoursPaysheet.getFinalSalary(employee));
@@ -102,6 +101,73 @@ public class EmployeeBean implements Serializable {
         }
         employeeService.addEmployee(employee);
         clearForm();
+
+    }
+
+    private int validateFields() {
+        int invalid = 1;
+        FacesMessage message;
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+
+        if (id == null || id.equals("")) {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID error:", "You have to type an identification.");
+            context.addMessage(null, message);
+            invalid = 0;
+        } else {
+            List<Employee> employees = employeeService.getEmployees();
+
+            for (Employee employee : employees) {
+                if (employee.getId().equalsIgnoreCase(id)) {
+                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID error:", "The employee has been  inserted already.");
+                    context.addMessage(null, message);
+                    invalid = 0;
+                    break;
+                }
+            }
+        }
+
+        if (name == null || name.equals("")) {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name error:", "You have to type a name.");
+            context.addMessage(null, message);
+            invalid = 0;
+        }
+
+        if (baseSalaryStr == null || baseSalaryStr.equals("")) {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Salary error:", "You have to type a base salary.");
+            context.addMessage(null, message);
+            invalid = 0;
+        }
+
+        if (extraSalary) {
+            if (extraSalaryType == null || extraSalaryType.equals("")) {
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Extra salary error:", "You have to select a extra salary type.");
+                context.addMessage(null, message);
+                invalid = 0;
+            } else {
+                System.out.println(extraSalaryType);
+                if (extraSalaryType.equalsIgnoreCase("extraHours")) {
+                    if (extraHoursStr == null || extraHoursStr.equals("")) {
+                        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Number hours error:", "You have to type a number of hours.");
+                        context.addMessage(null, message);
+                        invalid = 0;
+                    }
+
+                    if (extraHoursValueStr == null || extraHoursValueStr.equals("")) {
+                        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hours value error:", "You have to type a hours value.");
+                        context.addMessage(null, message);
+                        invalid = 0;
+                    }
+                } else if (extraSalaryType.equalsIgnoreCase("commission")) {
+                    if (comissionStr == null || comissionStr.equals("")) {
+                        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Commission error:", "You have to type a commission value.");
+                        context.addMessage(null, message);
+                        invalid = 0;
+                    }
+                }
+            }
+        }
+        return invalid;
     }
 
     private void clearForm() {

@@ -86,8 +86,5 @@ public class Employee {
 
     public void setFinalSalary(long finalSalary) {
         this.finalSalary = finalSalary;
-    }
-    
-    
-    
+    }    
 }

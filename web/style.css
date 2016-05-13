@@ -7,25 +7,11 @@ and open the template in the editor.
     Created on : 12/05/2016, 03:44:45 AM
     Author     : Daego_000
 */
-
-.container {
-    margin: 30px;
-}
-
-#right-panel,#left-panel {
-    background: #f4f4f4;
-    display: inline-block;
-    vertical-align: top;
-}
-
-#left-panel {
-    width: 30%
-}
-
-#right-panel {
-    width: 65%
-}
-
 .out-label {
-    width: 30px;
+    width: 50px;
 }
+
+.extra-panel{
+    width: 350px;
+}
+

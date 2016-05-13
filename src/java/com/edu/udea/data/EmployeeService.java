@@ -29,12 +29,12 @@ public class EmployeeService implements Serializable {
         System.out.println("Initializing employees service");
         employees = new ArrayList<Employee>();
         employees.add(new Employee("1", "Rogelio Rivera", 900000, 0, 3000, 0, 903000));
-        employees.add(new Employee("2", "Roberto Giraldo", 700000, 4, 2000, 0,708000));
-        employees.add(new Employee("3", "Bernarda Tobias", 800000, 3, 4000, 20000,832000));
+        employees.add(new Employee("2", "Roberto Giraldo", 700000, 4, 2000, 0, 708000));
+        employees.add(new Employee("3", "Bernarda Tobias", 800000, 3, 4000, 20000, 820000));
     }
 
     @PreDestroy
-    public void dsr() {
+    public void release() {
         System.out.println("Destroying employees Service");
     }
 
@@ -44,10 +44,11 @@ public class EmployeeService implements Serializable {
 
     public void addEmployee(Employee employee) {
         System.out.println("Adding employee");
-        employees.add(employee);
+        employees.add(0, employee);
     }
 
     public void removeEmployee(Employee employee) {
+        System.out.println("Removing employee");
         employees.remove(employee);
     }
 }
